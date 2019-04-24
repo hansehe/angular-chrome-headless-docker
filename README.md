@@ -4,7 +4,7 @@ Docker image with embedded Node 9 and Chrome Headless preconfigured for Angular 
 
 ### Get the image: 
 
-`docker pull avatsaev/angular-chrome-headless`
+`docker pull hansehe/angular-chrome-headless`
 
 #### Launch scripts:
 
@@ -75,18 +75,25 @@ module.exports = function (config) {
 // Protractor configuration file, see link for more information
 // https://github.com/angular/protractor/blob/master/lib/config.ts
 
+// Checkout is-docker: https://www.npmjs.com/package/is-docker
+
 const { SpecReporter } = require('jasmine-spec-reporter');
+const isDocker = require('is-docker');
 
 exports.config = {
   allScriptsTimeout: 11000,
   specs: [
     './e2e/**/*.e2e-spec.ts'
   ],
-  capabilities: {
+  capabilities: isDocker() ? {
     'browserName': 'chrome',
+    'acceptInsecureCerts': true,
     'chromeOptions': {
       'args': ['--no-sandbox', '--headless', '--window-size=1024,768']
     }
+  } : {
+      'browserName': 'chrome',
+      'acceptInsecureCerts': true
   },
   directConnect: true,
   baseUrl: 'http://localhost:4200/',
@@ -105,4 +112,7 @@ exports.config = {
 };
 ```
 
-
+### BuildSystem
+- [DockerBuildManagement](https://github.com/DIPSAS/DockerBuildManagement) 
+  - `pip install DockerBuildManagement`
+  - Build & publish: `dbm -build -publish`

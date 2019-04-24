@@ -1,0 +1,13 @@
+build:
+    selections:
+        prod:
+            additionalTag: latest
+            files:
+                - docker-compose.yml
+
+publish:
+    selections:
+        prod:
+            additionalTag: latest
+            files:
+                - docker-compose.yml
